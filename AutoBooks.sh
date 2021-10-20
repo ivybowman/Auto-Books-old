@@ -4,7 +4,7 @@
 time=$(date +"%r")
 host=$(hostname)
 error="false"
-
+DIR=/home/Savio/Dsktop/check
 cd /mnt/c/Users/famil/Downloads
 
 #Output Banner
@@ -26,7 +26,8 @@ then
 fi
 
 #Check for .odm files to Download & Merge
-if [ -f *.odm ];
+#if [ -f *.odm ];
+if ls ${DIR}/*.odm &>/dev/null
 then
     odmstatus="Success, found .odm download files to process."
     for file in *.odm; do  /home/famil/.local/bin/odmpy dl -c -m --mergeformat m4b --nobookfolder "$file" && rm cover.jpg ; done 2>&1 | tee AutoBooks.log
