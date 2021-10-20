@@ -3,7 +3,7 @@
 sudo apt update
 
 #Install Deps
-sudo apt-get install ffmpeg toilet neofetch python3 python3-pip curl bats jq git -y
+sudo apt-get install ffmpeg toilet neofetch python3 python3-pip curl bats jq moreutils git -y
 #Download discord.sh
 curl https://raw.githubusercontent.com/ChaoticWeg/discord.sh/v1.6/discord.sh > discord.sh
 
