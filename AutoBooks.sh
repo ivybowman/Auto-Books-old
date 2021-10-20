@@ -38,13 +38,6 @@ echo -e "\e[1;31m\Error: Please set the audiobooksdir variable."
 read
 exit
 fi
-if [ -d "$odmdir" ]
-then
-echo -e "\e[1;31m\Error:Directory 'odmdir' does not exist."
-read
-exit
-fi
-
 cd $odmdir
  
 #Check for existing files and remove if found
