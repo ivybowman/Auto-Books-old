@@ -18,20 +18,28 @@ itunesdir=/mnt/c/Users/famil/Music/iTunes/iTunes Media/Automatically Add to iTun
 toilet AutoBooks
 echo "by Ivan Bowman | Hostname: $host | Start Time: $time"
 echo "====================================================================="
-#Pre script checks to determine variable status
+
+#Pre script checks to determine variable status.
 if [ -z "$webhook" ] #
 then
 echo -e "\e[1;31m\Error: Please set the webhook variable."
+read
+exit
 fi
 if [ -z "$odmdir" ]
 then
 echo -e "\e[1;31m\Error: Please set the odmdir variable."
+read
+exit
 fi
 if [ -z "$audiobooksdir" ]
 then
 echo -e "\e[1;31m\Error: Please set the audiobooksdir variable."
+read
+exit
 fi
 cd $odmdir
+
 #Check for existing files and remove if found
 if [ -f "cover.jpg" ]
 then
@@ -69,22 +77,22 @@ if [ -f "./cover.jpg" ];
 then
     rm cover.jpg
 fi
+
 #Checks if output files are present and process them
 if ls ${odmdir}/*.m4b &>/dev/null
 then
 echo "Backing up source files." 
 #Clean and back up the log and download files
 mv -f *.{odm,license} $scriptdir/ODMbackup
-cp -v AutoBooks.log $scriptdir/log/Autobooks-$time.log
-
-#Set status for later use and send status message
+cp -v AutoBooks.log $scriptdir/log/Autobooks-$time.log #Log contains output from odmpy commands.  
+#Set status for later use and send status message + file list
 m4bstatus="Success, found .m4b book files to process"
 echo -e "\e[1;35m$m4bstatus"
-# ls *.m4b > AutoBookList.txt
-
-#Copy .m4b files to Audiobooks Folder and iTunes Auto Add folder
+echo -e "\e[1;35mList of Found .odm files"
+ls *.m4b
+#Copy .m4b files to Audiobooks Folder and iTunes Auto Add folder and remove them from $odmdir
 cp -v *.m4b $audiobooksdir
-cp -v *.m4b "" 2>&1 | tee AutoBooks.log
+cp -v *.m4b $itunesdir
 rm *.m4b
 toilet Finished
 else
@@ -125,7 +133,7 @@ then
 fi
 
 #Discord File Message For Booklist
-if [ -f "./AutoBookList.txt" ]
+if [ -f "$odmdir/AutoBookList.txt" ]
 then
 ./discord.sh \
   --webhook-url=$webhook \
