@@ -4,7 +4,7 @@ time=$(date +%Y-%m-%d_%H:%M) #Timestamp of when the script began, used for log &
 host=$(hostname) #Hostname stored for discord message, used in case multiple machines are used.
 error="false" #Initalize error status, used to choose Discord message to send
 scriptdir=$(pwd) #Store pwd for copy commands
-
+#======================= New Section 
 # Set User Customized Variables
 webhook="https://discord.com/api/webhooks/900195892009762916/fkwgutgBCuXussd3rQKJhW0vOQFBv27XJfu7pIqK_1RWKyhjEI55TxP1PE696jROw-XR"
 #Directory which contains your .ODM download files.  
@@ -12,13 +12,13 @@ odmdir=/mnt/c/Users/famil/Downloads/
 #Directory to copy the .m4b output files
 audiobooksdir=/mnt/c/Users/famil/OneDrive/AudioBooks
 #If using WSL optionally put your Automatically Add to iTunes folder here.
-itunesdir=/mnt/c/Users/famil/Music/iTunes/iTunes Media/Automatically Add to iTunes
-
+itunesdir=/mnt/c/Users/famil/Music/iTunes/iTunes\Media/Automatically\Add\to\iTunes
+#======================= New Section 
 #Output Banner
 toilet AutoBooks
 echo "by Ivan Bowman | Hostname: $host | Start Time: $time"
 echo "====================================================================="
-
+#======================= New Section 
 #Pre script checks to determine variable status.
 if [ -z "$webhook" ] #
 then
@@ -39,7 +39,7 @@ read
 exit
 fi
 cd $odmdir
-
+#======================= New Section 
 #Check for existing files and remove if found
 if [ -f "cover.jpg" ]
 then
@@ -53,7 +53,7 @@ if [ -f "./AutoBookList.txt" ]
 then
     rm AutoBookList.txt
 fi
-
+#======================= New Section 
 #Check for .odm files to Download & Merge
 echo "Checking for .odm files to process in $pwd"
 if ls ${odmdir}/*.odm &>/dev/null
@@ -71,13 +71,13 @@ odmstatus="Error, no .odm download files found."
 echo -e "\e[1;31m$odmstatus"
 error="true"
 fi
-
+#======================= New Section 
 #Check for leftover cover.jpg & Book List and remove if found
 if [ -f "./cover.jpg" ];
 then
     rm cover.jpg
 fi
-
+#======================= New Section 
 #Checks if output files are present and process them
 if ls ${odmdir}/*.m4b &>/dev/null
 then
@@ -100,12 +100,12 @@ m4bstatus="Error, no .m4b book files found."
 echo -e "\e[1;31m$m4bstatus"
 error="true"
 fi
-
+#======================= New Section
 #Sending Output to Discord
 endtime=$(date +"%r")
 echo "Status Sent to #auto-books-output on Discord"
 cd $scriptdir
-
+#======================= New Section
 #Send this if error = true
 if [ $error = "true" ]
 then
@@ -118,7 +118,7 @@ then
 --footer "Started: $time Host: $host" \
 --image "https://media.giphy.com/media/TqiwHbFBaZ4ti/giphy.gif"
 fi
-
+#======================= New Section
 #Send this Discord Message if error = false
 if [ $error = "false" ]
 then
@@ -131,7 +131,7 @@ then
 --footer "Started: $time Host: $host" \
 --image "https://media.giphy.com/media/LnRahQFrzU5OXOuA8S/giphy.gif"
 fi
-
+#======================= New Section
 #Discord File Message For Booklist
 if [ -f "$odmdir/AutoBookList.txt" ]
 then
@@ -141,7 +141,7 @@ then
 --avatar "https://styles.redditmedia.com/t5_2qh2d/styles/communityIcon_xagsn9nsaih61.png?width=256&s=1e4cf3a17c94aecf9c127cef47bb259162283a38" \
 --file $odmdir/AutoBookList.txt
 fi
-
+#======================= New Section
 #File Message For LOG
 #if [ -f "/mnt/c/Users/famil/Downloads/AutoBooks.log" ]
 #then
