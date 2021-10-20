@@ -1,17 +1,22 @@
 #!/bin/bash
-
-#Set Variables
+#Set Variables For Messages
 time=$(date +"%r")
 host=$(hostname)
 error="false"
-DIR=/home/Savio/Dsktop/check
-cd /mnt/c/Users/famil/Downloads
+webhook="https://discord.com/api/webhooks/900195892009762916/fkwgutgBCuXussd3rQKJhW0vOQFBv27XJfu7pIqK_1RWKyhjEI55TxP1PE696jROw-XR"
+# Set Variables For Folders
+#Script Directory
+scriptdir=$(pwd)
+#Directory Containing your .ODM files  
+dirodm=/mnt/c/Users/famil/Downloads/
+cd $dirodm
 
 #Output Banner
 toilet AutoBooks
 echo "by Ivan Bowman | Hostname: $host | Start Time: $time"
 echo "====================================================================="
-Check for existing files and remove if found
+
+#Check for existing files and remove if found
 if [ -f "cover.jpg" ]
 then
     rm cover.jpg
@@ -26,11 +31,10 @@ then
 fi
 
 #Check for .odm files to Download & Merge
-#if [ -f *.odm ];
-if ls ${DIR}/*.odm &>/dev/null
+if ls ${dirodm}/*.odm &>/dev/null
 then
     odmstatus="Success, found .odm download files to process."
-    for file in *.odm; do  /home/famil/.local/bin/odmpy dl -c -m --mergeformat m4b --nobookfolder "$file" && rm cover.jpg ; done 2>&1 | tee AutoBooks.log
+    for file in *.odm; do  $HOME/.local/bin/odmpy dl -c -m --mergeformat m4b --nobookfolder "$file" && rm cover.jpg ; done 2>&1 | tee AutoBooks.log
     cat AutoBooks.log | grep Downloading > AutoBookList.txt
 else
 odmstatus="Error, no .odm download files found."
@@ -44,10 +48,10 @@ then
     rm cover.jpg
 fi
 #Check if output files are present and send them to the right place.
-if [ -e *.m4b ];
+if ls ${dirodm}/*.odm &>/dev/null
 then
 echo "Backing up source files." 
-mv -f *.{odm,license} /mnt/c/Users/famil/OneDrive/Documents/OverdriveSourceFiles
+mv -f *.{odm,license} $scriptdir/ODMbackup
 cp -v AutoBooks.log /mnt/c/Users/famil/OneDrive/Documents/OverdriveSourceFiles/log/Autobooks-$time.log
 m4bstatus="Success, found .m4b book files to process"
 echo "$m4bstatus"
@@ -65,7 +69,7 @@ fi
 #Sending Out to discord
 endtime=$(date +"%r")
 echo "Status Sent to #auto-books-output on Discord"
-cd /mnt/c/Users/famil/OneDrive/Documents/
+cd $scriptdir
 
 #Send this if error = true
 if [ $error = "true" ]
@@ -84,7 +88,7 @@ fi
 if [ $error = "false" ]
 then
 ./discord.sh \
-  --webhook-url=https://discord.com/api/webhooks/900195892009762916/fkwgutgBCuXussd3rQKJhW0vOQFBv27XJfu7pIqK_1RWKyhjEI55TxP1PE696jROw-XR \
+  --webhook-url=$webhook \
   --username "AutoBooksLogBot" \
 --avatar "https://styles.redditmedia.com/t5_2qh2d/styles/communityIcon_xagsn9nsaih61.png?width=256&s=1e4cf3a17c94aecf9c127cef47bb259162283a38" \
 --title "AutoBooks Has Finshed Running at $endtime" \
@@ -97,19 +101,19 @@ fi
 if [ -f "./AutoBookList.txt" ]
 then
 ./discord.sh \
-  --webhook-url=https://discord.com/api/webhooks/900195892009762916/fkwgutgBCuXussd3rQKJhW0vOQFBv27XJfu7pIqK_1RWKyhjEI55TxP1PE696jROw-XR \
+  --webhook-url=$webhook \
   --username "AutoBooksLogBot" \
 --avatar "https://styles.redditmedia.com/t5_2qh2d/styles/communityIcon_xagsn9nsaih61.png?width=256&s=1e4cf3a17c94aecf9c127cef47bb259162283a38" \
---file /mnt/c/Users/famil/Downloads/AutoBookList.txt
+--file $dirodm/AutoBookList.txt
 fi
 
 #File Message For LOG
 #if [ -f "/mnt/c/Users/famil/Downloads/AutoBooks.log" ]
 #then
 #./discord.sh \
-#  --webhook-url=https://discord.com/api/webhooks/900195892009762916/fkwgutgBCuXussd3rQKJhW0vOQFBv27XJfu7pIqK_1RWKyhjEI55TxP1PE696jROw-XR \
+#  --webhook-url=$webhook
 #  --username "AutoBooksLogBot" \
 #--avatar "https://styles.redditmedia.com/t5_2qh2d/styles/communityIcon_xagsn9nsaih61.png?width=256&s=1e4cf3a17c94aecf9c127cef47bb259162283a38" \
-#--file /mnt/c/Users/famil/Downloads/AutoBooks.log
+#--file $dirodm/AutoBooks.log
 #fi
 exit
