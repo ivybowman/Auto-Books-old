@@ -11,7 +11,7 @@ webhook="https://discord.com/api/webhooks/900195892009762916/fkwgutgBCuXussd3rQK
 odmdir=/mnt/c/Users/famil/Downloads/
 #Directory to copy the .m4b output files
 audiobooksdir=/mnt/c/Users/famil/OneDrive/AudioBooks
-#If using WSL optionally put your Automatically Add to iTunes folder here.
+#If using WSL optionally put your Automatically Add to iTunes folder here. Replace spaces with \
 itunesdir=/mnt/c/Users/famil/Music/iTunes/iTunes\Media/Automatically\Add\to\iTunes
  
 #Output Banner
@@ -38,6 +38,13 @@ echo -e "\e[1;31m\Error: Please set the audiobooksdir variable."
 read
 exit
 fi
+if [ -d "$odmdir" ]
+then
+echo -e "\e[1;31m\Error:Directory 'odmdir' does not exist."
+read
+exit
+fi
+
 cd $odmdir
  
 #Check for existing files and remove if found
