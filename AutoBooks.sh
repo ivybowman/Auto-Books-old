@@ -105,7 +105,6 @@ cp -v AutoBooks-Download.log $scriptdir/log/AutoBooks-Download-$time.log #Log co
 
 #Sending Output to Discord
 endtime=$(date +"%r")
-echo "Status Sent to #auto-books-output on Discord" 
 cd $scriptdir
 
 #Send this if error = true
@@ -119,6 +118,7 @@ then
 --description "**Status List** \n $odmstatus \n $m4bstatus \n **Other Variables** \n odmdir=$odmdir \n scriptdir=$scriptdir \n time=$time \n host=$host \n **Description** \n Failed! Double check files & settings." \
 --footer "Started: $time Host: $host" \
 --image "https://media.giphy.com/media/TqiwHbFBaZ4ti/giphy.gif"
+echo "Status Posted to Discord Webhook" 
 fi
 
 #Send this Discord Message if error = false
@@ -132,6 +132,7 @@ then
 --description "**Status List** \n $odmstatus \n $m4bstatus \n ODMdir=$odmdir \n **Description** \n Success! You get brownie points." \
 --footer "Started: $time Host: $host" \
 --image "https://media.giphy.com/media/LnRahQFrzU5OXOuA8S/giphy.gif"
+echo "Status Posted to Discord Webhook" 
 fi
 
 #Discord File Message For Booklist
