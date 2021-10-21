@@ -2,10 +2,11 @@
 #Set Variables
 time=$(date +%Y-%m-%d_%H:%M) #Timestamp of when the script began, used for log & discord message.
 host=$(hostname) #Hostname stored for discord message, used in case multiple machines are used.
-error="false" #Initalize error status, used to choose Discord message to send
+error="false" #Initialize error status, used to choose Discord message to send
 scriptdir=$(pwd) #Store pwd for copy commands
  
 # Set User Customized Variables
+#Webhook for Discord status alerts.
 webhook="https://discord.com/api/webhooks/900195892009762916/fkwgutgBCuXussd3rQKJhW0vOQFBv27XJfu7pIqK_1RWKyhjEI55TxP1PE696jROw-XR"
 #Directory to copy the .m4b output files
 audiobooksdir=/mnt/c/Users/famil/OneDrive/AudioBooks
@@ -127,7 +128,7 @@ then
   --username "AutoBooksLogBot" \
 --avatar "https://styles.redditmedia.com/t5_2qh2d/styles/communityIcon_xagsn9nsaih61.png?width=256&s=1e4cf3a17c94aecf9c127cef47bb259162283a38" \
 --title "AutoBooks Run Success at $endtime" \
---description "**Status List** \n $odmstatus \n $m4bstatus \n ODMdir=$odmdir \n **Description** \n Sucess! You get brownie points." \
+--description "**Status List** \n $odmstatus \n $m4bstatus \n ODMdir=$odmdir \n **Description** \n Success! You get brownie points." \
 --footer "Started: $time Host: $host" \
 --image "https://media.giphy.com/media/LnRahQFrzU5OXOuA8S/giphy.gif"
 fi
@@ -141,14 +142,4 @@ then
 --avatar "https://styles.redditmedia.com/t5_2qh2d/styles/communityIcon_xagsn9nsaih61.png?width=256&s=1e4cf3a17c94aecf9c127cef47bb259162283a38" \
 --file $odmdir/AutoBookList.txt
 fi
-
-#File Message For LOG
-#if [ -f "/mnt/c/Users/famil/Downloads/AutoBooks.log" ]
-#then
-#./discord.sh \
-#  --webhook-url=$webhook
-#  --username "AutoBooksLogBot" \
-#--avatar "https://styles.redditmedia.com/t5_2qh2d/styles/communityIcon_xagsn9nsaih61.png?width=256&s=1e4cf3a17c94aecf9c127cef47bb259162283a38" \
-#--file $odmdir/AutoBooks.log
-#fi
 exit
