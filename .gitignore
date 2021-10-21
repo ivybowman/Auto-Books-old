@@ -4,3 +4,5 @@ discord.sh
 *.log
 *.odm
 *.license
+local_var.txt
+AutoBooks-local.sh
