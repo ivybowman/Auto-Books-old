@@ -19,9 +19,9 @@ if [ -f "cover.jpg" ]
 then
     rm cover.jpg
 fi
-if [ -f "./AutoBooks.log" ]
+if [ -f "./AutoBooks-Download.log" ]
 then
-    rm AutoBooks.log
+    rm AutoBooks-Download.log
 fi
 if [ -f "./AutoBookList.txt" ]
 then
@@ -67,10 +67,10 @@ then
     echo "====================================================================="
     #For every .odm file, run odmpy to download add chapter info and merge.
     for file in *.odm; do  $HOME/.local/bin/odmpy dl -c -m --mergeformat m4b --nobookfolder "$file" ; done 2>&1 | tee AutoBooks-Download.log
-    cat AutoBooks.log | grep Downloading >> AutoBookList.txt
-    cat AutoBooks.log | grep downloaded >> AutoBookList.txt
-    cat AutoBooks.log | grep expired >> AutoBookList.txt
-    cat AutoBooks.log | grep Merged >> AutoBookList.txt
+    cat AutoBooks-Download.log | grep Downloading >> AutoBookList.txt
+    cat AutoBooks-Download.log | grep downloaded >> AutoBookList.txt
+    cat AutoBooks-Download.log | grep expired >> AutoBookList.txt
+    cat AutoBooks-Download.log | grep Merged >> AutoBookList.txt
     echo "====================================================================="
 else
 odmstatus="Error, no .odm download files found."
@@ -101,7 +101,7 @@ m4bstatus="Error, no .m4b book files found."
 echo -e "\e[1;31m$m4bstatus" 
 error="true"
 fi
-cp -v AutoBooks-Download.log $scriptdir/log/Autobooks-Download-$time.log #Log contains output from odmpy.
+cp -v AutoBooks-Download.log $scriptdir/log/AutoBooks-Download-$time.log #Log contains output from odmpy.
 
 #Sending Output to Discord
 endtime=$(date +"%r")
